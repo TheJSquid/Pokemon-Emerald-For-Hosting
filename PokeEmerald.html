@@ -27,19 +27,5 @@
 
   <script src="https://unpkg.com/gba.js@latest/dist/gba.min.js"></script>
   <script>
-    // Replace this URL with the direct link to your legally owned Pokémon Emerald .gba ROM
-    const romUrl = 'https://thejsquid.github.io/Pokemon-Emerald-For-Hosting/';
-
-    const canvas = document.getElementById('screen');
-    const gba = new gbajs.GBA({ canvas });
-
-    gba.loadROM(romUrl).then(() => {
-      document.querySelector('p').textContent = 'ROM loaded! Starting game...';
-      gba.start();
-    }).catch(e => {
-      document.querySelector('p').textContent = 'Failed to load ROM. Check the URL.';
-      console.error(e);
-    });
-  </script>
-</body>
-</html>
+    // Your hosted ROM URL on GitHub Pages
+    const romUrl = 'https://TheJSquid.github.io/Pokemon-Em
