@@ -2,21 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Pokemon Emerald Emulator</title>
+  <title>Play Pokémon Emerald</title>
+  <style>
+    body, html { margin:0; padding:0; height:100%; }
+    #game { width: 100%; height: 100vh; }
+  </style>
 </head>
 <body>
-  <h1>Play Pokemon Emerald</h1>
+  <div id="game"></div>
 
-  <canvas id="emulator-canvas" width="240" height="160"></canvas>
-
-  <script src="emulatorjs/emulator.min.js"></script>
   <script>
-    const emulator = new EmulatorJS({
-      canvas: document.getElementById('emulator-canvas'),
-      rom: 'roms/pokemon.gba'
-    });
+    // Tell EmulatorJS where to put the game canvas
+    window.EJS_player = "#game";
 
-    emulator.loadROM();
+    // Set the emulator core to GBA (Game Boy Advance)
+    window.EJS_core = "gba";
+
+    // URL to your ROM file in the GitHub repo
+    window.EJS_gameUrl = "https://raw.githubusercontent.com/TheJSquid/Pokemon-Emerald-For-Hosting/main/pokemon.gba";
+
+    // Use EmulatorJS CDN to get all necessary emulator files
+    window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
+
+    // Start automatically
+    window.EJS_startOnLoaded = true;
   </script>
+
+  <!-- Load EmulatorJS -->
+  <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
 </body>
 </html>
