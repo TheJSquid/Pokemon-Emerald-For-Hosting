@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +7,12 @@
 <body>
   <h1>Play Pokemon Emerald</h1>
 
-  <canvas id="emulator-container" width="240" height="160"></canvas>
+  <canvas id="emulator-canvas" width="240" height="160"></canvas>
 
-  <script src="emulatorjs/emulator.js"></script>
+  <script src="emulatorjs/emulator.min.js"></script>
   <script>
     const emulator = new EmulatorJS({
-      canvas: document.getElementById('emulator-container'),
+      canvas: document.getElementById('emulator-canvas'),
       rom: 'roms/pokemon.gba'
     });
 
