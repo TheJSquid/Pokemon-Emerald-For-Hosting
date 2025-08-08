@@ -2,23 +2,96 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Play Pokémon Emerald</title>
+  <title>Multi-Game Emulator</title>
   <style>
-    body, html { margin: 0; padding: 0; height: 100%; }
-    #game { width: 100%; height: 100vh; }
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      display: flex; flex-direction: column;
+    }
+    #gameSelect {
+      margin: 10px;
+      font-size: 16px;
+      padding: 5px 10px;
+      max-width: 300px;
+    }
+    #game {
+      flex-grow: 1;
+      width: 100%;
+      height: 100vh;
+    }
   </style>
 </head>
 <body>
+  <select id="gameSelect" aria-label="Select a game">
+    <option value="emerald">Pokémon Emerald (GBA)</option>
+    <option value="mariokart">Mario Kart DS (NDS)</option>
+  </select>
+
   <div id="game"></div>
 
   <script>
-    window.EJS_player = "#game";
-    window.EJS_core = "gba";
-    window.EJS_gameUrl = "pokemon.gba"; // or "roms/pokemon.gba"
-    window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
-    window.EJS_startOnLoaded = true;
-  </script>
+    const games = {
+      emerald: {
+        core: "gba",
+        url: "https://raw.githubusercontent.com/TheJSquid/Pokemon-Emerald-For-Hosting/main/pokemon.gba"
+      },
+      mariokart: {
+        core: "nds",
+        url: "https://drive.google.com/uc?export=download&id=1axH_xzV6gg4HnvEjotJ-3JLgtQ21QjrF"
+      }
+    };
 
-  <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+    const select = document.getElementById('gameSelect');
+
+    // Read URL param ?game=xxx or default to emerald
+    const params = new URLSearchParams(window.location.search);
+    let selectedGame = params.get('game') || 'emerald';
+
+    select.value = selectedGame;
+
+    function loadGame(gameKey) {
+      const game = games[gameKey];
+      if (!game) {
+        alert("Game not found!");
+        return;
+      }
+
+      // Clear the game container
+      const gameDiv = document.getElementById('game');
+      gameDiv.innerHTML = '';
+
+      // Remove old emulator script if exists
+      const oldScript = document.querySelector('script[data-emulator]');
+      if (oldScript) oldScript.remove();
+
+      // Set global EmulatorJS config variables
+      window.EJS_player = "#game";
+      window.EJS_core = game.core;
+      window.EJS_gameUrl = game.url;
+      window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
+      window.EJS_startOnLoaded = true;
+
+      // Load EmulatorJS loader script
+      const script = document.createElement('script');
+      script.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
+      script.setAttribute('data-emulator', 'true');
+      document.body.appendChild(script);
+    }
+
+    // On dropdown change, update URL and load game
+    select.addEventListener('change', () => {
+      selectedGame = select.value;
+
+      // Update URL without reload
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.set('game', selectedGame);
+      window.history.replaceState(null, '', newUrl);
+
+      loadGame(selectedGame);
+    });
+
+    // Load the initial game on page load
+    loadGame(selectedGame);
+  </script>
 </body>
 </html>
