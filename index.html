@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Pokémon Emerald Emulator</title>
-  <script src="https://cdn.emulatorjs.org/latest/data/loader.js"></script>
+  <meta charset="UTF-8" />
+  <title>Pokemon Emerald Emulator</title>
 </head>
 <body>
+  <h1>Play Pokemon Emerald</h1>
+
+  <div id="emulator-container"></div>
+
+  <script src="emulatorjs/emulator.js"></script>
   <script>
-    EJS_player = "#game";
-    EJS_core = "gba";
-    EJS_gameUrl = "pokemon-emerald.gba";
-    EJS_pathtodata = "https://cdn.emulatorjs.org/latest/data/";
+    const emulator = new EmulatorJS({
+      canvas: document.getElementById('emulator-container'),
+      rom: 'roms/pokemon.gba'
+    });
+
+    emulator.loadROM();
   </script>
-  <div id="game" style="width:100%; height:100vh;"></div>
 </body>
 </html>
+
