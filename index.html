@@ -1,27 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Pokémon Emerald Emulator</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: black;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
-  </style>
+  <script src="https://cdn.emulatorjs.org/latest/data/loader.js"></script>
 </head>
 <body>
-  <iframe
-    src="https://www.emulatorjs.com/loader.php?rom=https://TheJSquid.github.io/Pokemon-Emerald-For-Hosting/pokemon-emerald.gba&system=gba"
-    allowfullscreen>
-  </iframe>
+  <script>
+    EJS_player = "#game";
+    EJS_core = "gba";
+    EJS_gameUrl = "pokemon-emerald.gba";
+    EJS_pathtodata = "https://cdn.emulatorjs.org/latest/data/";
+  </script>
+  <div id="game" style="width:100%; height:100vh;"></div>
 </body>
 </html>
