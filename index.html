@@ -39,6 +39,9 @@
       window.EJS_pathtodata = "https://cdn.emulatorjs.org/latest/data/";
       window.EJS_startOnLoaded = true;
 
+      // Disable multiplayer
+      window.EJS_multiplayer = false;
+
       // Remove previous emulator script if any
       let oldScript = document.getElementById('emulatorScript');
       if (oldScript) oldScript.remove();
@@ -55,3 +58,4 @@
   </script>
 </body>
 </html>
+
