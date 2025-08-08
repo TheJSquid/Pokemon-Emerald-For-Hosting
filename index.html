@@ -2,66 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Multi-Game Emulator</title>
+  <title>Play Multiple Games</title>
   <style>
-    body, html { margin:0; padding:0; height:100%; }
-    #game { width: 100%; height: 90vh; }
-    #gameSelector {
-      width: 220px;
+    body, html { margin: 0; padding: 0; height: 100%; }
+    #game { width: 100%; height: 100vh; }
+    #menu {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: rgba(255,255,255,0.9);
+      padding: 10px;
+      border-radius: 8px;
+      z-index: 10;
+    }
+    button {
+      margin: 4px 0;
+      padding: 8px 12px;
+      cursor: pointer;
+      width: 180px;
       font-size: 16px;
-      margin: 10px;
-      padding: 5px;
     }
   </style>
 </head>
 <body>
-  <select id="gameSelector">
-    <option value="">-- Select a game --</option>
-    <option value="pokemon">Pokemon Emerald (GBA)</option>
-    <option value="mariokart">Mario Kart DS (NDS)</option>
-  </select>
+  <div id="menu">
+    <button onclick="loadGame('gba', 'https://raw.githubusercontent.com/TheJSquid/Pokemon-Emerald-For-Hosting/main/pokemon.gba')">Play Pokémon Emerald</button>
+    <button onclick="loadGame('nds', 'https://drive.google.com/uc?export=download&id=1axH_xzV6gg4HnvEjotJ-3JLgtQ21QjrF')">Play Mario Kart DS</button>
+  </div>
 
   <div id="game"></div>
 
-  <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
   <script>
-    const games = {
-      pokemon: {
-        core: "gba",
-        rom: "https://raw.githubusercontent.com/TheJSquid/Pokemon-Emerald-For-Hosting/main/pokemon.gba"
-      },
-      mariokart: {
-        core: "nds",
-        rom: "https://drive.google.com/uc?export=download&id=1axH_xzV6gg4HnvEjotJ-3JLgtQ21QjrF"
-      }
-    };
+    function loadGame(core, url) {
+      window.EJS_core = core;
+      window.EJS_gameUrl = url;
+      window.EJS_player = "#game";
+      window.EJS_pathtodata = "https://cdn.emulatorjs.org/latest/data/";
+      window.EJS_startOnLoaded = true;
 
-    const selector = document.getElementById('gameSelector');
-    let emulator = null;
+      // Remove previous emulator script if any
+      let oldScript = document.getElementById('emulatorScript');
+      if (oldScript) oldScript.remove();
 
-    selector.addEventListener('change', async () => {
-      const selected = selector.value;
-      if (!selected) return;
+      // Create new script to reload emulator
+      const script = document.createElement('script');
+      script.id = 'emulatorScript';
+      script.src = window.EJS_pathtodata + 'loader.js';
+      document.body.appendChild(script);
+    }
 
-      const game = games[selected];
-
-      // If emulator exists, stop it before loading new game
-      if (emulator) {
-        await emulator.stopGame(); // stop current game if running
-      }
-
-      // Create new emulator instance
-      emulator = new EmulatorJS({
-        canvas: '#game',
-        core: game.core,
-        rom: game.rom,
-        pathtodata: "https://cdn.emulatorjs.org/stable/data/",
-      });
-
-      emulator.loadROM();
-    });
+    // Load default game on page load
+    loadGame('gba', 'https://raw.githubusercontent.com/TheJSquid/Pokemon-Emerald-For-Hosting/main/pokemon.gba');
   </script>
 </body>
 </html>
-
-
